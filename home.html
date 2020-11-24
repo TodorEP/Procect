@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Games</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+         
+            <div class="col">
+                <form>                 
+                    <div class="form-group">
+                      <label for="genres">Жанр:</label>
+                      <select class="form-control" id="genres"> 
+                        <option disabled selected>Избери жанр:</option>                      
+                        <option value="4">Action</option>
+                        <option value="51">Indie</option>
+                        <option value="3">Adventure</option>
+                        <option value="5">RPG</option>
+                        <option value="10">Strategy</option>
+                        <option value="2">Shooter</option>
+                        <option value="40">Casual</option>
+                        <option value="14">Simulation</option>
+                        <option value="7">Puzzle</option>
+                        <option value="11">Arcade</option>
+                        <option value="83">Platformer</option>
+                        <option value="1">Racing</option>
+                        <option value="15">Sports</option>
+                        <option value="59">Massively Multiplayer</option>
+                        <option value="6">Fighting</option>
+                        <option value="19">Family</option>
+                        <option value="28">Board Games</option>
+                        <option value="34">Educational</option>
+                        <option value="17">Card</option>
+                      </select>                    
+                    </div>                 
+                </form>
+            </div>             
+        </div>
+
+        <div class="row">
+            <div class = "buttons">
+                <button type="button" id="publish" class="btn btn-secondary">Търси</button>  
+            </div>  
+        </div>
+
+        <div class="row">
+            <div class="col">                           
+                    <div class="mt-4 d-flex" id="cloneMe"  >
+                        <img src = "https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg" id="image">
+                            <div class="ml-3">
+                                <h5>Grand Theft Auto 5</h5> 
+                                <p class="text-muted" id="game-genre">Action</p>
+                                <div class="d-flex">                              
+                                <img src="img/star.png" height=35 >
+                                <span>Rating:<span> </span> </span>                             
+                            </div> 
+                            <span id="released">Release date: <span> </span> </span>                               
+                            </div>                                              
+                    </div>                              
+            </div>         
+            
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <script>
+    $(document).ready(function(){
+
+       $('#publish').click(function() {
+        let genre = $("#genres").val();
+
+
+        let request_games = {
+             "async": true,
+             "crossDomain": true,
+             "url": "https://rawg-video-games-database.p.rapidapi.com/games",
+             "method": "GET",
+             "headers": {
+                 "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
+                 "x-rapidapi-key": "ed92167ec8mshd31bf703b688e2ep130448jsn83199c4eb6ed"
+             }
+        }
+        $.ajax(request_games).done(function (response) {
+         console.log(response);
+        // const selected_genre = response.results.filter(item=> {
+        //      return item.id==genre;
+        //  })
+        //  const games = selected_genre[0].games;
+        //  console.log(games);
+        });
+});
+});
+    </script>
+</body>
+</html>
