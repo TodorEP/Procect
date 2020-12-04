@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <title>Games</title>
 </head>
@@ -21,60 +22,81 @@
                         <option value="51">Indie</option>
                         <option value="3">Adventure</option>
                         <option value="5">RPG</option>
-                        <option value="10">Strategy</option>
-                        <option value="2">Shooter</option>
-                        <option value="40">Casual</option>
-                        <option value="14">Simulation</option>
-                        <option value="7">Puzzle</option>
-                        <option value="11">Arcade</option>
-                        <option value="83">Platformer</option>
-                        <option value="1">Racing</option>
-                        <option value="15">Sports</option>
-                        <option value="59">Massively Multiplayer</option>
-                        <option value="6">Fighting</option>
-                        <option value="19">Family</option>
-                        <option value="28">Board Games</option>
-                        <option value="34">Educational</option>
-                        <option value="17">Card</option>
+                        <option value="2">Shooter</option>                 
+                        <option value="7">Puzzle</option>                     
+                        <option value="83">Platformer</option>                 
                       </select>                    
                     </div>                 
                 </form>
-            </div>             
-        </div>
+            </div> 
 
-        <div class="row">
-            <div class = "buttons">
-                <button type="button" id="publish" class="btn btn-secondary">Търси</button>  
-            </div>  
-        </div>
-
-        <div class="row">
-            <div class="col">                           
-                    <div class="mt-4 d-flex" id="cloneMe"  >
-                        <img src = "https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg" id="image">
-                            <div class="ml-3">
-                                <h5>Grand Theft Auto 5</h5> 
-                                <p class="text-muted" id="game-genre">Action</p>
-                                <div class="d-flex">                              
-                                <img src="img/star.png" height=35 >
-                                <span>Rating:<span> </span> </span>                             
-                            </div> 
-                            <span id="released">Release date: <span> </span> </span>                               
-                            </div>                                              
-                    </div>                              
-            </div>         
+            <div class ="col">
+                <div>
+                    <label class="d-flex" for="genres">Сортирай по година: </label>
+                    <input id="selected_year" type="number" placeholder="Година"> 
+                </div>
+            </div>
             
+         </div>             
+   
+
+                <div class="row">
+                    <div class = "col">
+                        <button type="button" id="publish" class="btn btn-secondary">Търси</button>
+                    </div> 
+                    <div class="d-inline text-right" >
+                        <div class="col">
+                            <button type="button" id="view-1" class="btn btn-default">
+                                <i class="fa fa-th-list"></i>
+                            </button>
+                            <button type="button" id="view-2" class="btn btn-default">
+                                <i class="fa fa-th-large"></i>
+                          </button>
+                        </div>                            
+                    </div>   
+                </div>
+               
+                <div class="row" id="games-list"></div>                       
+           
+            <div class="list-group-item mt-4 w-50 mx-auto" style= "display: none;" id="cloneMe">
+                <div class="row">
+                    <div class="col">                           
+                        <div class="mt-1 d-flex" >
+                            <img src = "" id="image">
+                                <div class="ml-3">
+                                        <h5></h5> 
+                                        <p class="text-muted" id="game-genre">Action</p>
+                                    <div class="d-flex">                              
+                                        <img src="img/star.png" height=35 >
+                                        <label for="rating">Rating: </label>
+                                        <span class = "ml-1" id='rating'> <span>                             
+                                    </div class=''> 
+                                        <label for="released" >Release date: </label>
+                                        <span class = "ml-1" id="released"> </span>                               
+                                </div>                                              
+                        </div>                              
+                    </div>         
+                </div>   
+            </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-
-    <script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script>
     $(document).ready(function(){
 
+        $('#view-1').click(function() {
+        $(".list-group-item").removeClass("w-50");
+        $("#games-list").removeClass("row d-flex").addClass("col d-block");
+        })
+
+        $('#view-2').click(function() {
+        $(".list-group-item").addClass("w-50");
+        $("#games-list").removeClass("col d-block").addClass("row d-flex");
+        })
+
        $('#publish').click(function() {
-        let genre = $("#genres").val();
-
-
+           $('#games-list').empty();
+        let selected_genre = $("#genres").val();
+   
         let request_games = {
              "async": true,
              "crossDomain": true,
@@ -83,17 +105,49 @@
              "headers": {
                  "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
                  "x-rapidapi-key": "ed92167ec8mshd31bf703b688e2ep130448jsn83199c4eb6ed"
-             }
-        }
-        $.ajax(request_games).done(function (response) {
-         console.log(response);
-        // const selected_genre = response.results.filter(item=> {
-        //      return item.id==genre;
-        //  })
-        //  const games = selected_genre[0].games;
-        //  console.log(games);
+                }
+            }
+                $.ajax(request_games).done(function (response) {
+                console.log(response.results);
+                  
+            const search_by_genre = response.results.filter(x => {
+             return x.genres.some(genres => genres.id == selected_genre)
+            })
+
+            const game_names = search_by_genre.map(item => item.name)    
+            const game_ratings = search_by_genre.map(item => item.rating) 
+            const game_images = search_by_genre.map(item => item.background_image) 
+            const release_date = search_by_genre.map(item => item.released) 
+
+            function createCloning(i) {
+                let miniMe = $('#cloneMe').clone();
+                miniMe.find('#game-genre').text($('#genres option:selected').text());
+                miniMe.find('h5').text(game_names[i]);
+                miniMe.find('#image').attr('src', game_images[i]);
+                miniMe.find('#rating').text(game_ratings[i]);
+                miniMe.find('#released').text(release_date[i]);
+                miniMe.attr('id', '');
+                $('#games-list').append(miniMe);
+                miniMe.show();  
+            }
+
+        
+            for(let i = 0; i < game_names.length; i ++) {
+             createCloning(i);               
+                // $('#cloneMe').addClass('d-flex');
+            }              
+            $("#selected_year").bind('keyup', function() {
+                $('#games-list').empty();
+                // console.log(release_date[0].slice(0,4));
+
+                for(let i = 0; i<game_names.length; i++) {
+                    if (release_date[i].slice(0,4) == $("#selected_year").val()) {
+                        createCloning(i);
+                    }
+                }
+            });
         });
-});
+    });
 });
     </script>
 </body>
